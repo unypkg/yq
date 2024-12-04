@@ -79,7 +79,7 @@ get_include_paths
 ### Start of individual build script
 
 #unset LD_RUN_PATH
-#export CGO_ENABLED=0
+export CGO_ENABLED=0
 
 go build
 
