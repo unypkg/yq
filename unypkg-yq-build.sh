@@ -35,7 +35,7 @@ mkdir -pv /uny/sources
 cd /uny/sources || exit
 
 pkgname="yq"
-pkggit="https://github.com/yq/yq.git refs/tags/*"
+pkggit="https://github.com/mikefarah/yq.git refs/tags/*"
 gitdepth="--depth=1"
 
 ### Get version info from git remote
@@ -51,9 +51,13 @@ echo "newer" >release-"$pkgname"
 
 git_clone_source_repo
 
-#cd "$pkg_git_repo_dir" || exit
-#./autogen.sh
-#cd /uny/sources || exit
+uny_go_path=/uny/uny/root/go
+uny_go_bin=(/uny/pkg/go/*/bin/go)
+
+cd "$pkg_git_repo_dir" || exit
+GOPATH="$uny_go_path" "${uny_go_bin[0]}" mod vendor
+#GOPATH="${uny_go_path[0]}" "${uny_go_bin[0]}" install github.com/goreleaser/goreleaser/v2@latest
+cd /uny/sources || exit
 
 archiving_source
 
@@ -77,12 +81,9 @@ get_include_paths
 
 unset LD_RUN_PATH
 
-./configure \
-    --prefix=/uny/pkg/"$pkgname"/"$pkgver"
+go build
 
-make -j"$(nproc)"
-make -j"$(nproc)" check 
-make -j"$(nproc)" install
+GOBIN=/uny/pkg/"$pkgname"/"$pkgver"/bin go install
 
 ####################################################
 ### End of individual build script
