@@ -56,7 +56,6 @@ uny_go_bin=(/uny/pkg/go/*/bin/go)
 
 cd "$pkg_git_repo_dir" || exit
 GOPATH="$uny_go_path" "${uny_go_bin[0]}" mod vendor
-#GOPATH="${uny_go_path[0]}" "${uny_go_bin[0]}" install github.com/goreleaser/goreleaser/v2@latest
 cd /uny/sources || exit
 
 archiving_source
